@@ -24,15 +24,17 @@ public class Main {
 
     public static void main(String[] args) {
         // Insertar un producto
-        Product nuevo = new Product(500, "Monitor 32 pulgadas", 2500.0f, "Y");
+        Product nuevo = new Product(600, "Monitor 32 pulgadas", 2500.0f, "Y");
         insertData(nuevo);
+        Product nuevodos = new Product(601, "Mouse Razer", 1000.0f, "Y");
+        insertData(nuevodos);
 
         // Actualizar un producto
-        Product actualizado = new Product(101, "PANTALLA 32 FULL SCREEN", 250.0f, "N");
+        Product actualizado = new Product(601, "PANTALLA 32 FULL SCREEN", 250.0f, "N");
         updateData(actualizado);
 
         // Eliminar un producto
-        deleteData(105);
+        deleteData(600);
 
         // Listar productos
         List<Product> productos = getSelectData();
