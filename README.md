@@ -3,13 +3,14 @@
 ![Java](https://img.shields.io/badge/Java-17+-orange?style=for-the-badge&logo=java)
 ![Oracle](https://img.shields.io/badge/Database-Oracle-red?style=for-the-badge&logo=oracle)
 ![JDBC](https://img.shields.io/badge/Driver-JDBC-blue?style=for-the-badge&logo=java)
+![Swing](https://img.shields.io/badge/GUI-Swing-green?style=for-the-badge&logo=java)
 ![Docker](https://img.shields.io/badge/Container-Docker-blue?style=for-the-badge&logo=docker)
 ![NetBeans](https://img.shields.io/badge/IDE-NetBeans-green?style=for-the-badge&logo=apachenetbeanside)
 ![Status](https://img.shields.io/badge/Status-Completado-success?style=for-the-badge)
 
 ## 📋 Descripción del Proyecto
 
-Sistema de gestión de productos desarrollado en Java que implementa operaciones CRUD completas conectándose a Oracle Database Express Edition mediante JDBC. El proyecto demuestra el uso de conexiones de base de datos, consultas SQL parametrizadas y manejo de transacciones, siguiendo las mejores prácticas de programación orientada a objetos.
+Sistema completo de gestión de productos desarrollado en Java que implementa operaciones CRUD completas conectándose a Oracle Database Express Edition mediante JDBC. El proyecto incluye una interfaz gráfica moderna desarrollada con Swing, replicando el diseño de sistemas de gestión profesionales. Demuestra el uso de conexiones de base de datos, consultas SQL parametrizadas, manejo de transacciones y programación orientada a objetos con una arquitectura MVC.
 
 ## 👨‍💻 Información del Desarrollador
 
@@ -23,17 +24,28 @@ Sistema de gestión de productos desarrollado en Java que implementa operaciones
 ## ✨ Características Principales
 
 ### 🎯 Funcionalidades Core
+- **Interfaz Gráfica Moderna**: GUI desarrollada con Swing con diseño profesional
 - **Inserción de Productos**: Registro de nuevos productos con validación de datos
 - **Consulta de Productos**: Listado completo de productos ordenados por ID
 - **Actualización de Productos**: Modificación de información existente por ID
 - **Eliminación de Productos**: Borrado seguro de productos por ID
+- **Búsqueda Avanzada**: Búsqueda por ID o nombre de producto
 - **Conexión Robusta**: Manejo de conexiones JDBC con Oracle Database
+- **Diseño Responsive**: Interfaz adaptable a diferentes tamaños de ventana
 
 ### 🔄 Operaciones CRUD Implementadas
-- **CREATE**: `insertData(Product newProduct)` - Insertar nuevos productos
-- **READ**: `getSelectData()` - Obtener lista completa de productos
-- **UPDATE**: `updateData(Product updatedProduct)` - Actualizar productos existentes
-- **DELETE**: `deleteData(int productId)` - Eliminar productos por ID
+- **CREATE**: `ProductManager.insertarProducto(Product product)` - Insertar nuevos productos
+- **READ**: `ProductManager.obtenerTodosLosProductos()` - Obtener lista completa de productos
+- **UPDATE**: `ProductManager.actualizarProducto(Product product)` - Actualizar productos existentes
+- **DELETE**: `ProductManager.eliminarProducto(int productId)` - Eliminar productos por ID
+- **SEARCH**: `ProductManager.buscarProductos(String busqueda)` - Buscar productos por criterios
+
+### 🎨 Características de la Interfaz
+- **Diseño Moderno**: Interfaz limpia y profesional con colores corporativos
+- **Validación en Tiempo Real**: Validación de campos con mensajes de error
+- **Tabla Interactiva**: Tabla con botones de acción y selección para edición
+- **Responsive Design**: Layout adaptable para diferentes resoluciones
+- **Iconos y Logo**: Integración del logo de la UMG
 
 ### 🛡️ Características de Seguridad
 - **Consultas Parametrizadas**: Uso de PreparedStatement para prevenir SQL Injection
@@ -46,6 +58,7 @@ Sistema de gestión de productos desarrollado en Java que implementa operaciones
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
 | **Java** | 17+ | Lenguaje de programación principal |
+| **Java Swing** | Built-in | Framework para interfaz gráfica |
 | **Oracle JDBC Driver** | ojdbc17.jar | Driver para conexión a Oracle Database |
 | **Oracle Database** | XE 21c | Base de datos relacional |
 | **Docker** | Latest | Contenedorización de Oracle XE |
@@ -60,7 +73,16 @@ ConnectionDB/
 │   └── edu/gt/rodrigocardenas/umg/
 │       ├── models/
 │       │   └── Product.java              # Modelo de datos del producto
-│       └── Main.java                     # Clase principal con operaciones CRUD
+│       ├── gui/
+│       │   └── frames/
+│       │       └── ProductFrame.java     # Frame principal de la GUI
+│       ├── utils/
+│       │   ├── UIConstants.java          # Constantes de interfaz
+│       │   ├── ProductManager.java       # Manager para operaciones CRUD
+│       │   └── ProductTableModel.java    # Modelo de tabla personalizado
+│       └── Main.java                     # Clase principal de la aplicación
+├── assets/
+│   └── logo_umg.png                      # Logo de la UMG
 ├── lib/
 │   └── ojdbc17.jar                       # Driver JDBC de Oracle
 ├── nbproject/                            # Configuración NetBeans
@@ -147,41 +169,62 @@ ConnectionDB/
    ```bash
    # Desde línea de comandos
    javac -cp "lib/ojdbc17.jar" -d build src/edu/gt/rodrigocardenas/umg/**/*.java
-   java -cp "build:lib/ojdbc17.jar" edu.gt.rodrigocardenas.umg.Main
+   java -cp "build;lib/ojdbc17.jar" edu.gt.rodrigocardenas.umg.Main
    ```
 
    O usar el botón **Run** en NetBeans
 
 ## 📱 Guía de Uso
 
-### 1. Operaciones CRUD Disponibles
+### 1. Interfaz Gráfica
+
+La aplicación se ejecuta con una interfaz gráfica moderna que incluye:
+
+#### **Panel de Formulario**
+- **ID del Producto**: Campo numérico para el identificador único
+- **Nombre del Producto**: Campo de texto para el nombre
+- **Precio**: Campo decimal para el precio del producto
+- **Estado**: ComboBox para seleccionar Activo/Inactivo
+
+#### **Panel de Búsqueda**
+- **Campo de Búsqueda**: Buscar productos por ID o nombre
+- **Botón Buscar**: Ejecutar la búsqueda
+
+#### **Tabla de Productos**
+- **Visualización**: Lista completa de productos en formato tabla
+- **Edición**: Hacer clic en cualquier fila para seleccionar producto para edición
+- **Eliminación**: Botón "Eliminar" en cada fila para borrar productos
+
+#### **Botones de Acción**
+- **Agregar**: Crear nuevo producto
+- **Actualizar**: Modificar producto seleccionado
+- **Limpiar**: Limpiar formulario
+- **Refrescar**: Recargar datos de la base de datos
+
+### 2. Operaciones CRUD Disponibles
 
 #### **Crear Producto**
-```java
-Product nuevo = new Product(500, "Monitor 32 pulgadas", 2500.0f, "Y");
-insertData(nuevo);
-```
+1. Llenar el formulario con los datos del producto
+2. Hacer clic en "Agregar"
+3. El sistema validará los datos y los insertará en la base de datos
 
 #### **Leer Productos**
-```java
-List<Product> productos = getSelectData();
-for (Product p : productos) {
-    System.out.println("ID: " + p.product_id + " - " + p.name);
-}
-```
+- Los productos se cargan automáticamente al iniciar la aplicación
+- Usar "Refrescar" para recargar datos
+- Usar la búsqueda para filtrar productos
 
 #### **Actualizar Producto**
-```java
-Product actualizado = new Product(101, "PANTALLA 32 FULL SCREEN", 250.0f, "N");
-updateData(actualizado);
-```
+1. Hacer clic en la fila del producto a editar
+2. Los datos se cargarán en el formulario
+3. Modificar los campos necesarios
+4. Hacer clic en "Actualizar"
 
 #### **Eliminar Producto**
-```java
-deleteData(105); // Elimina producto con ID 105
-```
+1. Hacer clic en el botón "Eliminar" en la fila del producto
+2. Confirmar la eliminación en el diálogo
+3. El producto se eliminará de la base de datos
 
-### 2. Estructura de la Tabla PRODUCTS
+### 3. Estructura de la Tabla PRODUCTS
 
 | Campo | Tipo | Descripción |
 |-------|------|-------------|
@@ -192,20 +235,20 @@ deleteData(105); // Elimina producto con ID 105
 
 ## 🎨 Características de Diseño
 
-### Paleta de Colores para Logs
-- **Verde Éxito**: `\u001B[32m` - Operaciones exitosas
-- **Rojo Error**: `\u001B[31m` - Mensajes de error
-- **Azul Info**: `\u001B[34m` - Información general
-- **Amarillo Advertencia**: `\u001B[33m` - Advertencias
+### Paleta de Colores de la Interfaz
+- **Azul Principal**: `#1E88E5` - Color corporativo principal
+- **Verde Éxito**: `#28B463` - Operaciones exitosas
+- **Rojo Peligro**: `#F44336` - Botones de eliminación y errores
+- **Naranja Advertencia**: `#FF9800` - Botones de actualización
+- **Gris Secundario**: `#6C757D` - Botones secundarios
+- **Fondo Suave**: `#F8F9FA` - Color de fondo de la aplicación
 
-### Formato de Salida
-```
-ID     : 101
-NOMBRE : Laptop Dell
-PRECIO : 1500.0
-ESTADO : Y
-------------------------------
-```
+### Características del Diseño
+- **Interfaz Moderna**: Diseño limpio y profesional
+- **Responsive**: Adaptable a diferentes tamaños de ventana
+- **Validación Visual**: Mensajes de error con colores distintivos
+- **Tabla Interactiva**: Selección de filas y botones de acción
+- **Logo Corporativo**: Integración del logo de la UMG
 
 ## 🔧 Funcionalidades Técnicas
 
@@ -265,22 +308,25 @@ El proyecto incluye validaciones automáticas:
 
 ## 📊 Estadísticas del Proyecto
 
-- **Líneas de código**: ~160
-- **Clases principales**: 2
-- **Métodos CRUD**: 4
-- **Consultas SQL**: 4
-- **Tiempo de desarrollo**: 1 semana
-- **Patrones implementados**: DAO (Data Access Object)
+- **Líneas de código**: ~800+
+- **Clases principales**: 6
+- **Métodos CRUD**: 6
+- **Consultas SQL**: 6
+- **Componentes GUI**: 15+
+- **Tiempo de desarrollo**: 2 semanas
+- **Patrones implementados**: MVC, DAO (Data Access Object), Observer
 
 ## 🔮 Funcionalidades Futuras
 
-- **Interfaz Gráfica**: GUI con Swing para operaciones CRUD
 - **Transacciones**: Implementación de transacciones ACID
 - **Pool de Conexiones**: Optimización de conexiones a BD
 - **Logging**: Sistema de logs avanzado
 - **Validaciones**: Validaciones de negocio más robustas
-- **Búsquedas**: Filtros y búsquedas avanzadas
+- **Búsquedas Avanzadas**: Filtros por rango de precios, fechas
 - **Reportes**: Generación de reportes de productos
+- **Exportación**: Exportar datos a Excel/PDF
+- **Backup**: Sistema de respaldo automático
+- **Multi-usuario**: Soporte para múltiples usuarios
 
 ## 🐳 Docker Compose (Opcional)
 
